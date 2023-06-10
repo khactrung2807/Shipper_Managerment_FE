@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6" style="width: 95vw; height: 85vh; overflow: auto">
+    <nb-card>
+      <nb-card-header>Cập nhật lượt giao hàng</nb-card-header>
+      <nb-card-body>
+        <div style="margin: 10px">
+          <p>Mã lượt giao hàng</p>
+          <input nbInput disabled [(ngModel)]="shipmentId" fullWidth fieldSize="medium" />
+        </div>
+        <div style="margin: 10px">
+          <p>Ngày giao</p>
+          <input
+            nbInput
+            [placeholder]="currentDate"
+            [nbDatepicker]="picker"
+            [(ngModel)]="dateShip"
+            fieldSize="medium"
+            fullWidth
+          />
+          <nb-datepicker #picker></nb-datepicker>
+        </div>
+        <div style="margin: 10px">
+          <p>Shipper</p>
+          <nb-select
+            placeholder=""
+            fullWidth
+            fieldSize="medium"
+            [(ngModel)]="shipper"
+          >
+            <nb-option
+              *ngFor="let item of listShipper"
+              [value]="item"
+              (click)="selectShipper(item._id)"
+            >
+              {{ item.name }}
+            </nb-option>
+          </nb-select>
+        </div>
+        <div style="display: flex; justify-content: center; margin-bottom: 10px">
+          <button
+            nbButton
+            status="danger"
+            style="margin: 10px; justify-content:flex-start "
+            (click)="openModal(remove)"
+          >
+            Xóa
+          </button>
+          <button
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="closeDialog({ result: 'Huy' })"
+          >
+            Hủy
+          </button>
+          <button
+            nbButton
+            status="primary"
+            
+            style="margin: 10px"
+            (click)="update()"
+          >
+            Xác nhận
+          </button>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+<ng-template #remove let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title" id="modal-basic-title">
+      {{ "Bạn có chắc chắn muốn hủy đơn hàng này" }}
+    </h6>
+  </div>
+
+  <div class="modal-body" style="max-height: 70vh; height: 10vh">
+    <div
+      class="col-md-12"
+      style="
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        bottom: 0;
+      "
+    >
+      <button
+        nbButton
+        status="danger"
+        size="medium"
+        style="margin: 10px"
+        (click)="modal.close('Close click')"
+      >
+        Có
+      </button>
+      <button
+        nbButton
+        status="warning"
+        size="medium"
+        (click)="modal.dismiss('Cross click')"
+        style="margin: 10px"
+      >
+        Không
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,134 @@
+<div class="row" style="width: 90vw; height: 90vh">
+  <nb-card class="col-md-12" style="margin: 0">
+    <nb-card-header><h3>Thêm dịch vụ</h3></nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-4">
+          <p>Chi tiết dịch vụ</p>
+        </div>
+        <div class="col-md-3" style="margin-bottom: 10px">
+          <label for="">Tên</label>
+          <input
+            type="text"
+            nbInput
+            [(ngModel)]="name"
+            fullWidth
+            fieldSize="medium"
+            placeholder="Nhập tên dịch vụ"
+          />
+        </div>
+        <div class="col-md-5" style="margin-bottom: 10px">
+          <label for="">Mô tả</label>
+          <textarea
+            nbInput
+            [(ngModel)]="description"
+            fullWidth
+            placeholder="Mô tả dịch vụ"
+          ></textarea>
+        </div>
+
+        <div class="col-md-4" style="margin-bottom: 10px">
+          Thiết lập chi phí
+        </div>
+        <div class="col-md-8" style="margin-bottom: 10px">
+          <nb-radio-group [(ngModel)]="typeShippingSelected">
+            <nb-radio
+              *ngFor="let type of typeShipping"
+              [value]="type.value"
+              style="display: unset"
+            >
+              {{ type.label }}
+            </nb-radio>
+          </nb-radio-group>
+        </div>
+        <div class="col-md-4" style="margin-bottom: 10px"></div>
+        <div class="col-md-8" style="margin-bottom: 10px">
+          <div class="row">
+            <div class="col-md-3" style="margin-bottom: 10px">Từ</div>
+            <div class="col-md-3" style="margin-bottom: 10px">Đến</div>
+            <div class="col-md-3" style="margin-bottom: 10px">Phí (VNĐ)</div>
+          </div>
+        </div>
+        <div class="col-md-4" style="margin-bottom: 10px"></div>
+        <div class="col-md-8" style="margin-bottom: 10px">
+          <div class="row" *ngFor="let item of listInput; let i = index">
+            <div class="col-md-3" style="margin-bottom: 10px">
+              <input
+                type="number"
+                nbInput
+                fullWidth
+                fieldSize="medium"
+                (keyup)="setFee($event, 'from', i)"
+                placeholder="0"
+                [value]="item.from"
+              />
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px">
+              <input
+                type="number" 
+                nbInput
+                fullWidth
+                fieldSize="medium"
+                (keyup)="setFee($event, 'to', i)"
+                placeholder="0"
+                [value]="item.to"
+              />
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px">
+              <input
+                type="number"
+                nbInput
+                fullWidth
+                fieldSize="medium"
+                (keyup)="setFee($event, 'price', i)"
+                placeholder="0"
+                [value]="item.value"
+              />
+            </div>
+            <div class="col-md-3" style="margin-bottom: 10px">
+              <button nbButton status="danger" (click)="removeFee(i)">Xóa</button>
+            </div>
+          </div>
+          <button nbButton status="primary" (click)="addInput()">
+            Thêm chi phí mới
+          </button>
+        </div>
+
+        <div
+          class="col-md-12"
+          style="
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            bottom: 0;
+          "
+        >
+          <button
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="closeDialog('Huy')"
+          >
+            Hủy
+          </button>
+          <button *ngIf="status !== 'update'"
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="add()"
+          >
+            Xác nhận
+          </button>
+          <button *ngIf="status === 'update'"
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="update()"
+          >
+            Cập nhật
+          </button>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

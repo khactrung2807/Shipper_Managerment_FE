@@ -1,0 +1,18 @@
+<div class="body">
+    <div class="content">
+        <h3>Login</h3>
+        <p>Chào mừng bạn đến với dịch vụ giao hàng MeshMove!</p>
+
+        <label>Email address:</label>
+        <input [(ngModel)]="email" type="text" nbInput fullWidth status="primary" placeholder="Email address">
+
+        <label>Password:</label>
+        <input [(ngModel)]="password" type="password" nbInput fullWidth status="primary" placeholder="Password">
+
+        <button (click)="login()" fullWidth nbButton status="success">Login</button>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 10px;" [routerLink]="['../request-password']">
+            <span style="cursor: pointer; color: rgb(67, 67, 245);">Forgot password?</span>
+        </div>
+    </div>
+</div>

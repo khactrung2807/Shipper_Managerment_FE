@@ -1,0 +1,122 @@
+<div class="row" style="width: 90vw; height: 60vh">
+  <div class="col-md-2"></div>
+  <nb-card class="col-md-8" style="margin: 0">
+    <nb-card-header><h3>Thêm mới kho</h3></nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Tên</label>
+          <input
+            [(ngModel)]="name"
+            type="text"
+            nbInput
+            fullWidth
+            fieldSize="medium"
+            placeholder="Nhập tên"
+          />
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Số điện thoại liên hệ</label>
+          <input
+            [(ngModel)]="phoneNumber"
+            type="text"
+            nbInput
+            fullWidth
+            fieldSize="medium"
+            placeholder="Số điện thoại"
+          />
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Tỉnh/Thành phố</label>
+          <nb-select
+            placeholder="Placeholder"
+            fullWidth
+            fieldSize="medium"
+            [(ngModel)]="province"
+          >
+            <nb-option
+              *ngFor="let item of listProvince"
+              [value]="item.ProvinceName"
+              (click)="getDistrict(item.ProvinceID)"
+            >
+              {{ item.ProvinceName }}
+            </nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Quận/Huyện</label>
+          <nb-select
+            placeholder="Placeholder"
+            fullWidth
+            fieldSize="medium"
+            [(ngModel)]="district"
+          >
+            <nb-option
+              *ngFor="let item of listDistrict"
+              [value]="item.DistrictName"
+              (click)="getWard(item.DistrictID)"
+            >
+              {{ item.DistrictName }}</nb-option
+            >
+          </nb-select>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Phường/Xã</label>
+          <nb-select
+            placeholder="Placeholder"
+            fullWidth
+            fieldSize="medium"
+            [(ngModel)]="ward"
+          >
+            <nb-option *ngFor="let item of listWard" [value]="item.WardName">{{
+              item.WardName
+            }}</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Địa chỉ chi tiết</label>
+          <!-- <input #search autocorrect="off" autocapitalize="off" spellcheck="off" type="text"> -->
+          <input
+            spellcheck="off"
+            [(ngModel)]="address"
+            type="text"
+            nbInput
+            fullWidth
+            fieldSize="medium"
+            placeholder="Địa chỉ"
+          />
+          <!-- <input ngx-google-places-autocomplete #places="ngx-places" (onAddressChange)="onChange($event)" /> -->
+        </div>
+
+        <div
+          class="col-md-12"
+          style="
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            bottom: 0;
+          "
+        >
+          <button nbButton status="primary" style="margin: 10px" (click)="closeDialog('Huy')">Hủy</button>
+          <button *ngIf="status !== 'update'"
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="add()"
+          >
+            Xác nhận
+          </button>
+          <button *ngIf="status === 'update'"
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="update()"
+          >
+            Cập nhật
+          </button>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  <div class="col-md-2"></div>
+</div>

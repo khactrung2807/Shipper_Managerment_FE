@@ -1,0 +1,217 @@
+<nb-tabset fullWidth>
+  <nb-tab tabTitle="Lượt giao hàng">
+    <div class="row">
+      
+      <div
+        class="col-md-3"
+        style="margin: 0px; padding: 0px; overflow-y: auto; height: 75vh"
+      >
+        <nb-card>
+          <nb-card-header>Lượt giao hàng</nb-card-header>
+          <nb-list>
+            <nb-list-item
+              [ngClass]="{ box_selected: shipmentId === item._id }"
+              *ngFor="let item of listShipment"
+              (click)="getShipmentById(item)"
+              style="display: block; padding: 10px; cursor: pointer"
+            >
+              <p style="color: #0071c5; font-weight: bold">
+                {{ item._id | uppercase }}
+              </p>
+              <p>Shipper: {{ item.shipper.name }}</p>
+              <p>Tổng đơn: {{ item.countTotal }}</p>
+              <p>Ngày giao hàng: {{ item.dateShip | date: "mediumDate" }}</p>
+            </nb-list-item></nb-list
+          >
+        </nb-card>
+      </div>
+
+      <div
+        class="col-md-4"
+        style="margin: 0px; padding: 0px; overflow: scroll; height: 70vh"
+      >
+        <nb-card>
+          <nb-card-header>Đơn hàng</nb-card-header>
+          <nb-list>
+            <nb-list-item
+              [ngClass]="{ box_selected1: orderId === item._id }"
+              *ngFor="let item of listOrderDetail"
+              (click)="directionMap(item)"
+              style="display: block; padding: 10px; cursor: pointer"
+            >
+              <p style="color: #0071c5; font-weight: bold">
+                ORDER-{{ item.order.id | uppercase }}
+              </p>
+              <p>{{ item.warehouse.name }}</p>
+              <p>Kho: {{ item.warehouse.name }}</p>
+              <p>Địa chỉ nhận hàng: {{ item.order.formattedAddress }}</p>
+              <p>Tên khách hàng:{{ item.order.customerName }}</p>
+              <p>Số điện thoại: {{ item.order.customerPhoneNumber }}</p>
+              <p>Tổng cod: {{ item.order.cod | number }} VNĐ</p>
+              <p>
+                Trạng thái:
+                <span *ngIf="item.order.status === 3">Chờ phản hồi</span>
+                <span *ngIf="item.order.status === 5">Đang giao</span>
+                <span *ngIf="item.order.status === 7">Thành công</span>
+                <span *ngIf="item.order.status === 9">Thất bại</span>
+              </p>
+            </nb-list-item>
+          </nb-list>
+        </nb-card>
+      </div>
+      <div class="col-md-5" style="margin: 0px; padding: 0px; height: 70vh">
+        <agm-map
+          [latitude]="location.latitude"
+          [longitude]="location.longitude"
+          [zoom]="location.zoom"
+          [mapTypeId]="location.mapType"
+          [fitBounds]="true"
+        >
+          <agm-marker
+            *ngIf="marker"
+            [latitude]="marker.lat"
+            [longitude]="marker.lng"
+            [iconAnchorX]="10"
+            [agmFitBounds]="true"
+            [iconAnchorY]="10"
+            [iconHeight]="20"
+            [iconWidth]="20"
+            (markerClick)="clickedMarker(infowindow)"
+            [iconUrl]="{
+              url: 'https://scdn.meshthings.io/5ff296fdd78eb85f02258338/image/17ee2594-15b7-4250-afd9-ade690ebebcc.png',
+              scaledSize: { height: 30, width: 30 }
+            }"
+          >
+            <agm-info-window #infowindow *ngIf="shipper">
+              <p>Tên: {{ shipper.name }}</p>
+              <p>Xe: {{ shipper.vehicle }} - {{ shipper.numberOfVehicle }}</p>
+            </agm-info-window>
+          </agm-marker>
+          <!-- (markerClick)="selectMarker($event)"
+        [markerDraggable]="true"
+        (dragEnd)="markerDragEnd(coords, $event)" -->
+          <agm-direction
+            *ngIf="!!origin && !!destination"
+            [origin]="origin"
+            [destination]="destination"
+          ></agm-direction>
+        </agm-map>
+      </div>
+    </div>
+  </nb-tab>
+  <nb-tab tabTitle="Shipper">
+    <div class="row">
+      <div
+        class="col-md-4"
+        style="
+          margin: 0px;
+          margin-bottom: 10px;
+          padding: 0px;
+          overflow: visible;
+        "
+      >
+        <label>Tìm kiếm theo shipper</label>
+        <nb-select
+          placeholder="--Chọn--"
+          fullWidth
+          fieldSize="medium"
+          [(ngModel)]="shipper"
+        >
+          <nb-option (click)="getAllShipper()">Tất cả</nb-option>
+          <nb-option
+            *ngFor="let item of listShipper"
+            [value]="item._id"
+            (click)="getShipperById(item)"
+          >
+            {{ item.name }}
+          </nb-option>
+        </nb-select>
+      </div>
+      <div
+        class="col-md-4"
+        style="
+          margin: 0px;
+          margin-bottom: 10px;
+          padding: 0px;
+          overflow: visible;
+        "
+      >
+        <label>Tìm kiếm theo trạng thái</label>
+        <nb-select
+          placeholder="--Chọn--"
+          fullWidth
+          fieldSize="medium"
+          [(ngModel)]="shipper"
+        >
+          <nb-option (click)="getAllShipper()">Tất cả</nb-option>
+          <nb-option (click)="getShipperByStatus(1)">Online</nb-option>
+          <nb-option (click)="getShipperByStatus(0)">Offline</nb-option>
+        </nb-select>
+      </div>
+      <div
+        class="col-md-4"
+        style="display: flex; justify-content: flex-end; margin-bottom: 10px"
+      ></div>
+      <div
+        class="col-md-4"
+        style="margin: 0px; padding: 0px; overflow: visible"
+      >
+        <nb-card>
+          <nb-card-header>Shipper</nb-card-header>
+          <nb-list>
+            <nb-list-item
+              [ngClass]="{ box_selected: shipperId === item._id }"
+              *ngFor="let item of listShipper"
+              (click)="getShipperById(item)"
+              style="display: block; padding: 10px"
+            >
+              <p>Tên: {{ item.name }}</p>
+              <p>
+                Trạng thái:
+                <span *ngIf="item.status === 1" style="color: #00ff00"
+                  >Online</span
+                >
+                <span *ngIf="item.status === 0" style="color: #ff0000"
+                  >Offline</span
+                >
+              </p>
+            </nb-list-item>
+          </nb-list>
+        </nb-card>
+      </div>
+      <div class="col-md-8" style="margin: 0px; padding: 0px">
+        <agm-map
+          [latitude]="location.latitude"
+          [longitude]="location.longitude"
+          [zoom]="location.zoom"
+          [mapTypeId]="location.mapType"
+          
+        >
+          <agm-marker
+            *ngFor="let marker of listMarker"
+            [latitude]="marker.lat"
+            [longitude]="marker.lng"
+            [iconAnchorX]="10"
+            [iconAnchorY]="10"
+            [iconHeight]="20"
+            [iconWidth]="20"
+            [iconUrl]="{
+              url: 'https://scdn.meshthings.io/5ff296fdd78eb85f02258338/image/17ee2594-15b7-4250-afd9-ade690ebebcc.png',
+              scaledSize: { height: 30, width: 30 }
+            }"
+            (markerClick)="clickedMarker(infowindow)"
+            [agmFitBounds]="true"
+          >
+            <agm-info-window #infowindow>
+              <p>Tên: {{ marker.label.name }}</p>
+              <p>
+                Xe: {{ marker.label.vehicle }} -
+                {{ marker.label.numberOfVehicle }}
+              </p>
+            </agm-info-window>
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </nb-tab>
+</nb-tabset>

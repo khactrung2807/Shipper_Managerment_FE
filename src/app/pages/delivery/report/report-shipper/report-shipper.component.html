@@ -1,0 +1,103 @@
+<div
+  class="col-md-12"
+  style="display: flex; justify-content: center; margin-bottom: 10px"
+>
+  <h2>Thống kê Shipper</h2>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <nb-select
+      placeholder="--Chọn--"
+      fullWidth
+      fieldSize="medium"
+      [(ngModel)]="shipper"
+    >
+      <nb-option value="">Tất cả</nb-option>
+      <nb-option *ngFor="let item of listShipper" [value]="item._id">
+        {{ item.name }}
+      </nb-option>
+    </nb-select>
+  </div>
+  <div class="col-md-3">
+    <input
+      nbInput
+      [placeholder]="currentDate"
+      [nbDatepicker]="picker"
+      [(ngModel)]="fromDate"
+    />
+    <nb-datepicker #picker></nb-datepicker>
+  </div>
+  <div class="col-md-3">
+    <input
+      nbInput
+      [placeholder]="currentDate"
+      [nbDatepicker]="picker1"
+      [(ngModel)]="toDate"
+    />
+    <nb-datepicker #picker1></nb-datepicker>
+  </div>
+  <div
+    class="col-md-3"
+    style="display: flex; justify-content: flex-end; margin-bottom: 10px"
+  >
+    <button nbButton status="primary" (click)="getReportByShipperId()">
+      Tìm kiếm
+    </button>
+  </div>
+  <div class="col-md-12" style="height: auto">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="listReport" style="width: 100%">
+        <ng-container matColumnDef="shipper">
+          <th mat-header-cell *matHeaderCellDef>Shipper</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="shipment">
+          <th mat-header-cell *matHeaderCellDef>Tổng lượt giao hàng</th>
+          <td mat-cell *matCellDef="let element">
+            <div style="width: 60%; padding-left: 2px">
+              {{ element.listShipment.length }}
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="order">
+          <th mat-header-cell *matHeaderCellDef>Tổng đơn hàng</th>
+          <td mat-cell *matCellDef="let element" style="padding: 10px">
+            {{ element.countTotal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="success">
+          <th mat-header-cell *matHeaderCellDef>Tổng đơn thành công</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.countSuccess }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fail">
+          <th mat-header-cell *matHeaderCellDef>Tổng đơn thất bại</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.countFail }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="cod">
+          <th mat-header-cell *matHeaderCellDef>Tổng tiền COD thành công</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.totalCOD | number }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fee">
+          <th mat-header-cell *matHeaderCellDef>Tổng phí ship thành công</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.totalFee | number }}
+          </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="distance">
+          <th mat-header-cell *matHeaderCellDef>Tổng quãng đường</th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container> -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div>

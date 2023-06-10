@@ -1,0 +1,33 @@
+.body {
+    height: auto;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+        height: 100%;
+        width: 50%;
+
+        h3 {
+            text-align: center;
+        }
+
+        label {
+            float: left;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        input {
+            height: 45px;
+            margin-bottom: 20px;
+        }
+
+        button{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+nb-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 0;
+
+  .content {
+    flex: 5;
+    img {
+      width: 200px;
+      height: 200px;
+      border-radius: 9999px;
+    }
+  }
+  .label {
+    flex: 1;
+    user-select: none;
+  }
+}

@@ -1,0 +1,217 @@
+<div
+  class="col-md-12"
+  style="display: flex; justify-content: center; margin-bottom: 10px"
+>
+  <h2>Đơn hàng</h2>
+</div>
+<div class="row">
+  <div class="col-md-2">
+    <nb-select
+      placeholder="--Chọn--"
+      fullWidth
+      fieldSize="medium"
+      [(ngModel)]="employee"
+    >
+      <nb-option value="">Tất cả</nb-option>
+      <nb-option *ngFor="let item of listEmployee" [value]="item._id">
+        {{ item.name }}
+      </nb-option>
+    </nb-select>
+  </div>
+  <div class="col-md-3">
+    <input
+      nbInput
+      [placeholder]="currentDate"
+      [nbDatepicker]="picker"
+      [(ngModel)]="fromDate"
+    />
+    <nb-datepicker #picker></nb-datepicker>
+  </div>
+  <div class="col-md-3">
+    <input
+      nbInput
+      [placeholder]="currentDate"
+      [nbDatepicker]="picker1"
+      [(ngModel)]="toDate"
+    />
+    <nb-datepicker #picker1></nb-datepicker>
+  </div>
+  <div
+    class="col-md-2"
+    style="display: flex; justify-content: flex-end; margin-bottom: 10px"
+  >
+    <button nbButton status="primary" (click)="getOrderByEmployee()">
+      Tìm kiếm
+    </button>
+  </div>
+  <div
+    class="col-md-2"
+    style="display: flex; justify-content: flex-end; margin-bottom: 10px"
+  >
+    <button nbButton status="primary" (click)="open()">Thêm đơn hàng</button>
+  </div>
+  <div class="col-md-12" style="height: auto">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="listOrder" style="width: 100%">
+        <!-- <ng-container matColumnDef="orderid">
+          <th mat-header-cell *matHeaderCellDef>Mã vận đơn</th>
+          <td mat-cell *matCellDef="let element">{{ element.order._id }}</td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="servicename">
+          <th mat-header-cell *matHeaderCellDef>Loại dịch vụ</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.serviceShipping.name }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="datestarted">
+          <th mat-header-cell *matHeaderCellDef>Ngày bắt đầu</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.dateStarted | date: "mediumDate" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="warehouse">
+          <th mat-header-cell *matHeaderCellDef>Kho</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.warehouse.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="orderaddress">
+          <th mat-header-cell *matHeaderCellDef>Địa chỉ giao hàng</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.formattedAddress }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="distance">
+          <th mat-header-cell *matHeaderCellDef>SỐ KM</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.distance }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="cod">
+          <th mat-header-cell *matHeaderCellDef>COD</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.cod | number }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fee">
+          <th mat-header-cell *matHeaderCellDef>Phí vận chuyển</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.fee | number }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Trạng thái</th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.order.status === 1">Mới</span>
+            <span *ngIf="element.order.status === 3">Chờ phản hồi</span>
+            <span *ngIf="element.order.status === 5">Đang giao hàng</span>
+            <span *ngIf="element.order.status === 7">Thành công</span>
+            <span *ngIf="element.order.status === 9">Thất bại</span>
+          </td></ng-container
+        >
+
+        <ng-container matColumnDef="cdate">
+          <th mat-header-cell *matHeaderCellDef>Ngày tạo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.cDate | date: "mediumDate" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="employee">
+          <th mat-header-cell *matHeaderCellDef>Người tạo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.employee.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="mdate">
+          <th mat-header-cell *matHeaderCellDef>Ngày cập nhật</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.order.mDate | date: "mediumDate" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              nbButton
+              size="tiny"
+              status="primary"
+              (click)="edit(element._id)"
+            >
+              Sửa
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button nbButton size="tiny" status="warning">Xem chi tiết</button>
+          </td>
+        </ng-container> -->
+        <ng-container matColumnDef="cancel">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              nbButton
+              size="tiny"
+              status="danger"
+              (click)="openModal(remove, element)"
+            >
+              Hủy
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>
+
+<ng-template #remove let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title" id="modal-basic-title">
+      {{ "Bạn có chắc chắn muốn hủy đơn hàng này" }}
+    </h6>
+  </div>
+
+  <div class="modal-body" style="max-height: 70vh; height: 10vh">
+    <div
+      class="col-md-12"
+      style="
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        bottom: 0;
+      "
+    >
+      <button
+        nbButton
+        status="danger"
+        size="medium"
+        style="margin: 10px"
+        (click)="modal.close('Close click')"
+      >
+        Có
+      </button>
+      <button
+        nbButton
+        status="warning"
+        size="medium"
+        (click)="modal.dismiss('Cross click')"
+        style="margin: 10px"
+      >
+        Không
+      </button>
+    </div>
+  </div>
+</ng-template>

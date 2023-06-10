@@ -1,0 +1,333 @@
+<div class="row" style="width: 95vw; height: 95vh">
+  <nb-card class="col-md-4" style="margin: 0">
+    <nb-card-body>
+      <!-- <div style="margin-bottom: 10px">
+        <label for="">Mã đơn hàng</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="Tự động tạo nếu bỏ trống"
+        />
+      </div> -->
+      <div style="margin-bottom: 10px">
+        <label for="">Tên hàng</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="Nhập tên hàng"
+          [(ngModel)]="productName"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Loại hàng</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="Loại hàng"
+          [(ngModel)]="productType"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Giá trị đơn hàng</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="0"
+          [(ngModel)]="value"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Tổng COD</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="0"
+          [(ngModel)]="cod"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Khối lượng(gram)</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="0"
+          [(ngModel)]="weight"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Ghi chứ thông tin đơn hàng</label>
+        <textarea
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="Full width"
+          [(ngModel)]="note"
+        ></textarea>
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Kho</label>
+        <nb-select
+          placeholder="Placeholder"
+          fullWidth
+          fieldSize="medium"
+          [(ngModel)]="warehouse"
+        >
+          <nb-option
+            *ngFor="let item of listWarehouse"
+            [value]="item"
+            (click)="selectAddress(item)"
+          >
+            {{ item.name }}
+          </nb-option>
+        </nb-select>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  <nb-card class="col-md-4" style="margin: 0">
+    <nb-card-body>
+      <div style="margin-bottom: 10px">
+        <label for="">Tên khách hàng</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="Nhập tên khách hàng"
+          [(ngModel)]="customerName"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Số điện thoại liên hệ</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          [(ngModel)]="customerPhoneNumber"
+          placeholder="Nhập số điện thoại"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Email</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          [(ngModel)]="customerEmail"
+          placeholder="Nhập email"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Địa chỉ giao hàng</label>
+        <input
+          #search
+          type="text"
+          nbInput
+          [(ngModel)]="formattedAddress"
+          fullWidth
+          fieldSize="medium"
+          placeholder="Địa chỉ giao hàng"
+        />
+      </div>
+      <div class="row">
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Tỉnh/Thành phố</label>
+          <nb-select
+            placeholder="--Chọn--"
+            fullWidth
+            fieldSize="medium"
+            [(ngModel)]="province"
+          >
+            <nb-option
+              *ngFor="let item of listProvince"
+              [value]="item.ProvinceName"
+              (click)="getAllDistrict(item.ProvinceID)"
+            >
+              {{ item.ProvinceName }}
+            </nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Quận/Huyện</label>
+          <nb-select
+            placeholder="--Chọn--"
+            fullWidth
+            fieldSize="medium"
+            [(ngModel)]="district"
+          >
+            <nb-option
+              *ngFor="let item of listDistrict"
+              [value]="item.DistrictName"
+              (click)="getAllWard(item.DistrictID)"
+            >
+              {{ item.DistrictName }}
+            </nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Phường/Xã</label>
+          <nb-select
+            placeholder="--Chọn--"
+            fullWidth
+            fieldSize="medium"
+            [(ngModel)]="ward"
+          >
+            <nb-option *ngFor="let item of listWard" [value]="item.WardName">
+              {{ item.WardName }}
+            </nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Địa chỉ chi tiết</label>
+          <input
+            type="text"
+            nbInput
+            fullWidth
+            [(ngModel)]="address"
+            fieldSize="medium"
+            placeholder="Địa chỉ chi tiết"
+          />
+        </div>
+        <div class="col-md-6" style="margin-bottom: 10px">
+          <label for="">Ngày bắt đầu giao</label>
+          <input
+            nbInput
+            [placeholder]="currentDate"
+            [nbDatepicker]="picker"
+            [(ngModel)]="dateStarted"
+          />
+          <nb-datepicker #picker></nb-datepicker>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  <nb-card class="col-md-4" style="margin: 0">
+    <nb-card-body>
+      <!-- <div style="margin-bottom: 10px">
+        <label for="">Mã vận đơn</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="Tự động tạo nếu bỏ trống"
+        />
+      </div> -->
+      <div style="margin-bottom: 10px">
+        <label for="">Số km(Từ kho đến địa chỉ người nhận hàng)</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="0"
+          [(ngModel)]="distanceShip"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Loại dịch vụ</label>
+        <nb-select
+          placeholder=""
+          fullWidth
+          fieldSize="medium"
+          [(ngModel)]="serviceShipping"
+        >
+          <nb-option
+            *ngFor="let item of listService"
+            [value]="item"
+            (click)="calculateFee()"
+          >
+            {{ item.name }}
+          </nb-option>
+        </nb-select>
+      </div>
+      <div style="margin-bottom: 10px">
+        <label for="">Phí giao hàng</label>
+        <input
+          type="text"
+          nbInput
+          fullWidth
+          fieldSize="medium"
+          placeholder="0"
+          [(ngModel)]="fee"
+        />
+      </div>
+      <div style="margin-bottom: 10px">
+        <agm-map
+          *ngIf="status !== 'update'"
+          [latitude]="location.latitude"
+          [longitude]="location.longitude"
+          [mapTypeId]="location.mapType"
+          [zoom]="location.zoom"
+          [controlSize]="20"
+          (mapClick)="addMarker($event.coords.lat, $event.coords.lng)"
+        >
+          <!-- <agm-marker
+            *ngFor="let marker of location.markers"
+            [latitude]="marker.lat"
+            [longitude]="marker.lng"
+            (markerClick)="selectMarker($event)"
+            [label]="marker.label"
+            [markerDraggable]="true"
+            (dragEnd)="markerDragEnd(coords, $event)"
+          ></agm-marker> -->
+          <agm-direction
+            *ngIf="!!origin && !!destination"
+            [origin]="origin"
+            [destination]="destination"
+          ></agm-direction>
+        </agm-map>
+      </div>
+      <div style="margin-bottom: 10px" *ngIf="status === 'update'">
+        <label for="">Trạng thái</label>
+        <input
+          type="text"
+          nbInput
+          disabled
+          fullWidth
+          fieldSize="medium"
+          [(ngModel)]="statusOrder"
+        />
+        
+      </div>
+
+      <div
+        class="col-md-12"
+        style="
+          display: flex;
+          justify-content: flex-end;
+          position: absolute;
+          bottom: 0;
+        "
+      >
+        <button
+          nbButton
+          status="primary"
+          style="margin: 10px"
+          (click)="closeDialog({ result: 'Huy' })"
+        >
+          Hủy
+        </button>
+        <button nbButton status="primary" style="margin: 10px" (click)="add()" *ngIf="status !== 'update'">
+          Xác nhận
+        </button>
+        <button nbButton status="primary" style="margin: 10px" (click)="update()" *ngIf="status === 'update'">
+          Cập nhật
+        </button>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

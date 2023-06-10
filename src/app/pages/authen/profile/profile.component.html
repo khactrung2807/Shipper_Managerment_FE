@@ -1,0 +1,222 @@
+<div class="row">
+  <div class="col-md-7" style="margin: 0px; padding: 0px">
+    <nb-card>
+      <nb-card-header> Thông tin tài khoản </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item>
+            <div class="label">Họ tên</div>
+            <div class="content">
+              <span>{{ user.name }}</span>
+            </div>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="label">Email</div>
+            <div class="content">
+              <span>{{ user.email }}</span>
+            </div>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="label">Số điện thoại</div>
+            <div class="content">
+              <span>{{ user.phoneNumber }}</span>
+            </div>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="label">Giới tính</div>
+            <div class="content">
+              <span>{{ user.gender }}</span>
+            </div>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-5" style="margin: 0px; padding: 0px">
+    <nb-card>
+      <nb-card-header> Bảo mật </nb-card-header>
+      <nb-accordion>
+        <nb-accordion-item>
+          <nb-accordion-item-header>Đổi mật khẩu</nb-accordion-item-header>
+          <nb-accordion-item-body>
+            <form
+              (ngSubmit)="activeChangePassword()"
+              [formGroup]="changePasswordForm"
+              novalidate
+            >
+              <label> Mật khẩu cũ</label>
+              <input
+                nbInput
+                fullWidth
+                type="password"
+                placeholder="Mật khẩu cũ"
+                formControlName="oldPassword"
+                [status]="
+                  changePasswordForm.get('oldPassword').touched
+                    ? changePasswordForm.get('oldPassword').invalid ||
+                      (!!changePasswordForm.errors &&
+                        !!changePasswordForm.errors['passwordNotSame'])
+                      ? 'danger'
+                      : 'success'
+                    : ''
+                "
+              />
+              <ng-container
+                *ngIf="
+                  (changePasswordForm.get('oldPassword').invalid ||
+                    (!!changePasswordForm.errors &&
+                      !!changePasswordForm.errors['passwordNotSame'])) &&
+                  changePasswordForm.get('oldPassword').touched &&
+                  changePasswordForm.get('oldPassword').dirty
+                "
+              >
+                <p
+                  class="caption status-danger"
+                  *ngIf="
+                    changePasswordForm.get('oldPassword').getError('required')
+                  "
+                >
+                  Mật khẩu không được bỏ trống
+                </p>
+                <p
+                  class="caption status-danger"
+                  *ngIf="getError('oldPassword', 'minlength')"
+                >
+                  Mật khẩu tối thiểu 6 ký tự
+                </p>
+                <p
+                  class="caption status-danger"
+                  *ngIf="getError('oldPassword', 'maxlength')"
+                >
+                  Mật khẩu tối đa 50 ký tự
+                </p>
+              </ng-container>
+
+              <label style="margin-top: 10px"> Mật khẩu mới</label>
+              <input
+                type="password"
+                nbInput
+                fullWidth
+                placeholder="Mật khẩu mới"
+                formControlName="newPassword"
+                [status]="
+                  changePasswordForm.get('newPassword').touched
+                    ? changePasswordForm.get('newPassword').invalid ||
+                      (!!changePasswordForm.errors &&
+                        !!changePasswordForm.errors['passwordNotSame'])
+                      ? 'danger'
+                      : 'success'
+                    : ''
+                "
+              />
+              <ng-container
+                *ngIf="
+                  (changePasswordForm.get('newPassword').invalid ||
+                    (!!changePasswordForm.errors &&
+                      !!changePasswordForm.errors['passwordNotSame'])) &&
+                  changePasswordForm.get('newPassword').touched &&
+                  changePasswordForm.get('newPassword').dirty
+                "
+              >
+                <p
+                  class="caption status-danger"
+                  *ngIf="
+                    changePasswordForm.get('newPassword').getError('required')
+                  "
+                >
+                  Mật khẩu không được bỏ trống
+                </p>
+                <p
+                  class="caption status-danger"
+                  *ngIf="getError('newPassword', 'minlength')"
+                >
+                  Mật khẩu tối thiểu 6 ký tự
+                </p>
+                <p
+                  class="caption status-danger"
+                  *ngIf="getError('newPassword', 'maxlength')"
+                >
+                  Mật khẩu tối đa 50 ký tự
+                </p>
+              </ng-container>
+
+              <label style="margin-top: 10px"> Nhập lại mật khẩu</label>
+              <input
+                type="password"
+                nbInput
+                fullWidth
+                placeholder="Nhập lại mật khẩu"
+                formControlName="repeatPassword"
+                [status]="
+                  changePasswordForm.get('repeatPassword').touched
+                    ? changePasswordForm.get('repeatPassword').invalid ||
+                      (!!changePasswordForm.errors &&
+                        !!changePasswordForm.errors['passwordNotSame'])
+                      ? 'danger'
+                      : 'success'
+                    : ''
+                "
+              />
+              <ng-container
+                *ngIf="
+                  (changePasswordForm.get('repeatPassword').invalid ||
+                    (!!changePasswordForm.errors &&
+                      !!changePasswordForm.errors['passwordNotSame'])) &&
+                  changePasswordForm.get('repeatPassword').touched &&
+                  changePasswordForm.get('repeatPassword').dirty
+                "
+              >
+                <p
+                  class="caption status-danger"
+                  *ngIf="
+                    changePasswordForm
+                      .get('repeatPassword')
+                      .getError('required')
+                  "
+                >
+                  Mật khẩu không được bỏ trống
+                </p>
+                <p
+                  class="caption status-danger"
+                  *ngIf="getError('repeatPassword', 'minlength')"
+                >
+                  Mật khẩu tối thiểu 6 ký tự
+                </p>
+                <p
+                  class="caption status-danger"
+                  *ngIf="getError('repeatPassword', 'maxlength')"
+                >
+                  Mật khẩu tối đa 50 ký tự
+                </p>
+                <p
+                  class="caption status-danger"
+                  *ngIf="
+                    !!changePasswordForm.errors &&
+                    !!changePasswordForm.errors['passwordNotSame']
+                  "
+                >
+                  Mật khẩu không trùng nhau
+                </p>
+              </ng-container>
+              <button
+                style="
+                  float: right;
+                  width: 150px;
+                  margin-top: 15px;
+                  cursor: pointer;
+                "
+                nbButton
+                fullWidth
+                status="primary"
+                type="submit"
+                class="active"
+              >
+                Cập nhật
+              </button>
+            </form>
+          </nb-accordion-item-body>
+        </nb-accordion-item>
+      </nb-accordion>
+    </nb-card>
+  </div>
+</div>

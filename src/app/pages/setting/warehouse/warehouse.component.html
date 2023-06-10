@@ -1,0 +1,129 @@
+<div
+  class="col-md-12"
+  style="display: flex; justify-content: center; margin-bottom: 10px"
+>
+  <h2>Kho</h2>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <input type="text"
+    (keyup)="onSearch($event)"
+    pattern="/^\d+$/"
+    [(ngModel)]="searchPhoneNumber"
+    nbInput
+    fullWidth
+    fieldSize="medium"
+    placeholder="Nhập số điện thoại">
+  </div>
+ 
+    <div
+    class="col-md-4"
+    style="display: flex; justify-content: flex-end; margin-bottom: 10px"
+  >
+    <button nbButton status="primary" (click)="searchWarehouse()" >Tìm kiếm</button>
+
+  </div>
+  <div
+    class="col-md-4"
+    style="display: flex; justify-content: flex-end; margin-bottom: 10px"
+  >
+    <button nbButton status="primary" (click)="open()">Thêm kho</button>
+  </div>
+
+  <div class="col-md-12" style="height: auto">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="listWarehouse" style="width: 100%">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Tên</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phonenumber">
+          <th mat-header-cell *matHeaderCellDef>Số điện thoại</th>
+          <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef>Địa chỉ</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.formattedAddress }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cdate">
+          <th mat-header-cell *matHeaderCellDef>Ngày tạo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.cDate | date: "mediumDate" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              nbButton
+              size="tiny"
+              status="primary"
+              (click)="getWarehouseById(element._id)"
+            >
+              Sửa
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              nbButton
+              size="tiny"
+              (click)="openModal(remove, element._id)"
+              status="danger"
+            >
+              Xóa
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div>
+<ng-template #remove let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title" id="modal-basic-title">
+      {{ "Bạn có chắc chắn muốn xóa" }}
+    </h6>
+  </div>
+
+  <div class="modal-body" style="max-height: 70vh; height: 10vh">
+    <div
+      class="col-md-12"
+      style="
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        bottom: 0;
+      "
+    >
+      <button
+        nbButton
+        status="danger"
+        size="medium"
+        style="margin: 10px"
+        (click)="modal.close('Close click')"
+      >
+        Có
+      </button>
+      <button
+        nbButton
+        status="warning"
+        size="medium"
+        (click)="modal.dismiss('Cross click')"
+        style="margin: 10px"
+      >
+        Không
+      </button>
+    </div>
+  </div>
+</ng-template>

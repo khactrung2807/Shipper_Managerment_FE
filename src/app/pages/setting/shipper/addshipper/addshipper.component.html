@@ -1,0 +1,125 @@
+<div class="row" style="width: 90vw; height: 90vh">
+  <nb-card class="col-md-12" style="margin: 0">
+    <nb-card-header><h3>Thêm shipper</h3></nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-md-3">
+          <p>Thông tin cá nhân</p>
+        </div>
+        <div class="col-md-3" style="margin-bottom: 10px">
+          <label for="">Họ tên</label>
+          <input
+            type="text"
+            nbInput
+            [(ngModel)]="name"
+            fullWidth
+            fieldSize="medium"
+            placeholder="Nhập họ và tên"
+          />
+        </div>
+        <div class="col-md-3" style="margin-bottom: 10px">
+          <label for="">Email</label>
+          <input
+            type="text"
+            nbInput
+            [(ngModel)]="email"
+            fullWidth
+            fieldSize="medium"
+            placeholder="Nhập email"
+          />
+        </div>
+        
+        <div class="col-md-3" style="margin-bottom: 10px" *ngIf="status === 'update'"></div>
+        <div class="col-md-3" style="margin-bottom: 10px" *ngIf="status !== 'update'">
+          <label for="">Mật khẩu</label>
+          <input
+            type="password"
+            nbInput
+            [(ngModel)]="password"
+            fullWidth
+            fieldSize="medium"
+            placeholder="Mật khẩu"
+          />
+        </div>
+
+        <div class="col-md-3" style="margin-bottom: 10px"></div>
+        <div class="col-md-3" style="margin-bottom: 10px">
+          <label for="">Số điện thoại</label>
+          <input
+            type="text"
+            nbInput
+            [(ngModel)]="phoneNumber"
+            fullWidth
+            fieldSize="medium"
+            placeholder="Nhập số điện thoại"
+          />
+        </div>
+        <div class="col-md-3" style="margin-bottom: 10px">
+          <label for="">Giới tính</label>
+          <nb-select fullWidth fieldSize="medium" [(ngModel)]="gender">
+            <nb-option value="Nam">Nam</nb-option>
+            <nb-option value="Nữ">Nữ</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-3" style="margin-bottom: 10px">
+          <label for="">Loại xe</label>
+          <input
+            type="text"
+            [(ngModel)]="vehicle"
+            nbInput
+            fullWidth
+            fieldSize="medium"
+            placeholder="VD: Wave RSX"
+          />
+        </div>
+        <div class="col-md-3" style="margin-bottom: 10px"></div>
+        <div class="col-md-3" style="margin-bottom: 10px">
+          <label for="">Biển số xe</label>
+          <input
+            type="text"
+            nbInput
+            fullWidth
+            [(ngModel)]="numberOfVehicle"
+            fieldSize="medium"
+            placeholder="VD: 78C1-61996"
+          />
+        </div>
+
+        <div
+          class="col-md-12"
+          style="
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            bottom: 0;
+          "
+        >
+          <button
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="closeDialog('Huy')"
+          >
+            Hủy
+          </button>
+          <button *ngIf="status !== 'update'"
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="add()"
+          >
+            Xác nhận
+          </button>
+          <button *ngIf="status === 'update'"
+            nbButton
+            status="primary"
+            style="margin: 10px"
+            (click)="update()"
+          >
+            Cập nhật
+          </button>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
